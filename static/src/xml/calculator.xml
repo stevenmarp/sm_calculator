@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Calculator Systray Button -->
+    <t t-name="sm_calculator.CalculatorSystray">
+        <div class="sm-calculator-systray">
+            <div class="calculator-icon" t-on-click="toggleCalculator" title="Calculator">
+                <i class="fa fa-calculator"></i>
+            </div>
+            
+            <!-- Calculator Popup -->
+            <div t-if="state.isOpen" 
+                 class="sm-calculator-popup" 
+                 t-ref="calculatorPopup"
+                 t-on-mousedown="onMouseDown">
+                
+                <!-- Header -->
+                <div class="calc-header">
+                    <div class="calc-title">
+                        <i class="fa fa-calculator"></i>
+                        <span>Calculator</span>
+                    </div>
+                    <div class="calc-actions">
+                        <button t-on-click="toggleHistory" title="History">
+                            <i class="fa fa-history"></i>
+                        </button>
+                        <button t-on-click="copyResult" title="Copy">
+                            <i class="fa fa-copy"></i>
+                        </button>
+                        <button t-on-click="closeCalculator" title="Close">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Display -->
+                <div class="calc-display">
+                    <div class="calc-expression" t-esc="state.expression"/>
+                    <div class="calc-result" t-esc="state.display"/>
+                    <div class="calc-memory-indicator">
+                        <t t-if="state.hasMemory">M = <t t-esc="state.memory"/></t>
+                    </div>
+                </div>
+                
+                <!-- Memory Buttons -->
+                <div class="calc-buttons" style="padding-bottom: 0;">
+                    <button class="btn-function" t-on-click="memoryClear">MC</button>
+                    <button class="btn-function" t-on-click="memoryRecall">MR</button>
+                    <button class="btn-function" t-on-click="memoryAdd">M+</button>
+                    <button class="btn-function" t-on-click="memorySubtract">M-</button>
+                </div>
+                
+                <!-- Main Buttons -->
+                <div class="calc-buttons">
+                    <button class="btn-clear" t-on-click="clear">AC</button>
+                    <button class="btn-function" t-on-click="clearEntry">CE</button>
+                    <button class="btn-function" t-on-click="handlePercent">%</button>
+                    <button class="btn-operator" t-on-click="() => this.handleOperator('÷')">÷</button>
+                    
+                    <button class="btn-number" t-on-click="() => this.inputDigit('7')">7</button>
+                    <button class="btn-number" t-on-click="() => this.inputDigit('8')">8</button>
+                    <button class="btn-number" t-on-click="() => this.inputDigit('9')">9</button>
+                    <button class="btn-operator" t-on-click="() => this.handleOperator('×')">×</button>
+                    
+                    <button class="btn-number" t-on-click="() => this.inputDigit('4')">4</button>
+                    <button class="btn-number" t-on-click="() => this.inputDigit('5')">5</button>
+                    <button class="btn-number" t-on-click="() => this.inputDigit('6')">6</button>
+                    <button class="btn-operator" t-on-click="() => this.handleOperator('-')">−</button>
+                    
+                    <button class="btn-number" t-on-click="() => this.inputDigit('1')">1</button>
+                    <button class="btn-number" t-on-click="() => this.inputDigit('2')">2</button>
+                    <button class="btn-number" t-on-click="() => this.inputDigit('3')">3</button>
+                    <button class="btn-operator" t-on-click="() => this.handleOperator('+')">+</button>
+                    
+                    <button class="btn-number" t-on-click="toggleSign">±</button>
+                    <button class="btn-number" t-on-click="() => this.inputDigit('0')">0</button>
+                    <button class="btn-number" t-on-click="inputDecimal">.</button>
+                    <button class="btn-equals" t-on-click="handleEquals">=</button>
+                </div>
+                
+                <!-- History Panel -->
+                <div t-if="state.showHistory" class="calc-history">
+                    <div class="history-header">
+                        <span>History</span>
+                        <button t-on-click="clearHistory">Clear All</button>
+                    </div>
+                    <div class="history-list">
+                        <t t-if="state.history.length === 0">
+                            <div class="history-empty">No calculations yet</div>
+                        </t>
+                        <t t-foreach="state.history" t-as="item" t-key="item_index">
+                            <div class="history-item" t-on-click="() => this.useHistoryItem(item)">
+                                <div class="history-expression" t-esc="item.expression"/>
+                                <div class="history-result" t-esc="item.result"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>
