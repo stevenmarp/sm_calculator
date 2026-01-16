@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Calculator Widget',
-    'version': '18.0.1.0.0',
+    'version': '16.0.1.0.0',
     'category': 'Productivity',
     'summary': 'Floating calculator widget in systray for quick calculations',
     'description': """
